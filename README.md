@@ -5,5 +5,5 @@
 ## Running the server
 
 ```
-dicker-compose up
+docker-compose up
 ```
