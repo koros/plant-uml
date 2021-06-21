@@ -13,7 +13,7 @@ variables:
   imageName: 'agora-plantuml-server'
   webAppName: 'agora-plantuml-server'
   dockerComposefilePath: '**/docker-compose.yml'
-  azureSubscription: 'agora-azuresc'
+  azureSubscription: 'plantuml-subscription'
 
 stages:
 
