@@ -12,8 +12,10 @@ variables:
   resourceGroupName: 'agora-plantuml-server'
   imageName: 'agora-plantuml-server'
   webAppName: 'agora-plantuml-server'
-  dockerComposefilePath: '**/docker-compose.yml'
   azureSubscription: 'plantuml-subscription'
+  plantUmlStats: $(PLANTUML_STATS)
+  plantUmlLimitSize: $(PLANTUML_LIMIT_SIZE)
+  dockerfilePath: '**/Dockerfile'
 
 stages:
 
@@ -36,28 +38,23 @@ stages:
         overrideParameters: '-registryName "$(registryName)" -registryLocation "$(location)" -registrySku standard'       
 
     # Build container image
-    - task: DockerCompose@0
-      displayName: Build services
+    - task: Docker@1
+      displayName: 'Build container image'
       inputs:
-        action: Build services
-        azureSubscriptionEndpoint: $(azureSubscription)
-        azureContainerRegistry: $(azureContainerRegistry)
-        dockerComposeFile: $(dockerComposefilePath)
-        projectName: $(Build.Repository.Name)
-        qualifyImageNames: true
-        additionalImageTags: $(Build.BuildId)
+        azureSubscriptionEndpoint: '$(azureSubscription)'
+        azureContainerRegistry: '$(azureContainerRegistry)'
+        imageName: '$(imageName):$(Build.BuildId)'
+        dockerfile: $(dockerfilePath)
+        arguments: '--build-arg PLANTUML_STATS=$(plantUmlStats) --build-arg PLANTUML_LIMIT_SIZE=$(plantUmlLimitSize)'
 
     # Push container image
-    - task: DockerCompose@0
-      displayName: Push services
+    - task: Docker@1
+      displayName: 'Push container image'
       inputs:
-        action: Push services
-        azureSubscriptionEndpoint: $(azureSubscription)
-        azureContainerRegistry: $(azureContainerRegistry)
-        dockerComposeFile: $(dockerComposefilePath)
-        projectName: $(Build.Repository.Name)
-        qualifyImageNames: true
-        additionalImageTags: $(Build.BuildId)
+        azureSubscriptionEndpoint: '$(azureSubscription)'
+        azureContainerRegistry: '$(azureContainerRegistry)'
+        command: 'push'
+        imageName: '$(imageName):$(Build.BuildId)'
 
     # Copy ARM templates
     - task: CopyFiles@2

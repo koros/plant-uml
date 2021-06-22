@@ -1,10 +1,10 @@
 version: "3.3"
 services:
     agora-plantuml-server:
-        image: plantuml/plantuml-server
+        build: .
         container_name: agora-plantuml-server
         ports:
-            - 8080:8080
+            - 80:80
         environment: 
             PLANTUML_LIMIT_SIZE: 99999 # Limits image width and height
             PLANTUML_STATS: "on" # Set it to on/off to enable statistics report
