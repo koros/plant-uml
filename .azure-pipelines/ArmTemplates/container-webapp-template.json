@@ -36,8 +36,8 @@
   "resources": [
     {
       "type": "Microsoft.Web/sites",
+      "apiVersion": "2020-12-01",
       "name": "[parameters('webAppName')]",
-      "apiVersion": "2016-03-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
@@ -52,11 +52,11 @@
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2017-10-01').username]"
+              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2020-11-01-preview').username]"
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2017-10-01').passwords[0].value]"
+              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2020-11-01-preview').passwords[0].value]"
             },
             {
               "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
@@ -64,7 +64,7 @@
             },
             {
               "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
+              "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2020-02-02-preview').InstrumentationKey]"
             }
           ],
           "appCommandLine": "[parameters('startupCommand')]",
@@ -80,11 +80,11 @@
     },
     {
       "type": "Microsoft.ContainerRegistry/registries",
+      "apiVersion": "2020-11-01-preview",
       "sku": {
         "name": "[parameters('registrySku')]"
       },
       "name": "[parameters('registryName')]",
-      "apiVersion": "2017-10-01",
       "location": "[parameters('registryLocation')]",
       "properties": {
         "adminUserEnabled": "true"
@@ -92,13 +92,13 @@
     },
     {
       "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-12-01",
       "sku": {
         "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
         "Name": "[first(split(parameters('sku'), ' '))]"
       },
       "kind": "linux",
       "name": "[parameters('hostingPlanName')]",
-      "apiVersion": "2016-09-01",
       "location": "[resourceGroup().location]",
       "properties": {
         "name": "[parameters('hostingPlanName')]",
@@ -110,8 +110,8 @@
     },
     {
       "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02-preview",
       "name": "[parameters('webAppName')]",
-      "apiVersion": "2014-04-01",
       "location": "[parameters('appInsightsLocation')]",
       "tags": {
         "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource"
