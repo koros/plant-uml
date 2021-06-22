@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webAppName": {
@@ -37,7 +37,7 @@
     {
       "type": "Microsoft.Web/sites",
       "name": "[parameters('webAppName')]",
-      "apiVersion": "2016-03-01",
+      "apiVersion": "2018-11-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
@@ -52,11 +52,11 @@
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2017-10-01').username]"
+              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2018-11-01').username]"
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2017-10-01').passwords[0].value]"
+              "value": "[listCredentials(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName')), '2018-11-01').passwords[0].value]"
             },
             {
               "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
@@ -84,7 +84,7 @@
         "name": "[parameters('registrySku')]"
       },
       "name": "[parameters('registryName')]",
-      "apiVersion": "2017-10-01",
+      "apiVersion": "2018-11-01",
       "location": "[parameters('registryLocation')]",
       "properties": {
         "adminUserEnabled": "true"
@@ -98,7 +98,7 @@
       },
       "kind": "linux",
       "name": "[parameters('hostingPlanName')]",
-      "apiVersion": "2016-09-01",
+      "apiVersion": "2018-11-01",
       "location": "[resourceGroup().location]",
       "properties": {
         "name": "[parameters('hostingPlanName')]",
@@ -111,7 +111,7 @@
     {
       "type": "Microsoft.Insights/components",
       "name": "[parameters('webAppName')]",
-      "apiVersion": "2014-04-01",
+      "apiVersion": "2018-11-01",
       "location": "[parameters('appInsightsLocation')]",
       "tags": {
         "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource"

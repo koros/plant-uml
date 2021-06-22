@@ -7,11 +7,11 @@ pr: none
 variables:
   buildConfiguration: 'Release'
   location: 'West US 2'
-  azureContainerRegistry: 'plantumlacr.azurecr.io'
-  registryName: 'plantumlacr'
-  resourceGroupName: 'agora-plantuml-server'
-  imageName: 'agora-plantuml-server'
-  webAppName: 'agora-plantuml-server'
+  azureContainerRegistry: 'plantumlacr1.azurecr.io'
+  registryName: 'plantumlacr1'
+  resourceGroupName: 'agora-plantuml-server1'
+  imageName: 'agora-plantuml-server1'
+  webAppName: 'agora-plantuml-server1'
   azureSubscription: 'plantuml-subscription'
   plantUmlStats: $(PLANTUML_STATS)
   plantUmlLimitSize: $(PLANTUML_LIMIT_SIZE)
